@@ -11,7 +11,6 @@ let selectedCategory = localStorage.getItem('selectedCategory') || 'all';
 function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
     syncWithServer();
-    postQuotesToServer(quotes);
 }
 
 function populateCategories() {
@@ -147,12 +146,13 @@ async function postQuotesToServer(quotes) {
     }
 }
 
-async function syncWithServer() {
+async function syncQuotes() {
     try {
         const serverQuotes = await fetchQuotesFromServer();
         resolveConflicts(serverQuotes);
+        await postQuotesToServer(quotes);
     } catch (error) {
-        console.error('Error syncing with server:', error);
+        console.error('Error syncing quotes:', error);
     }
 }
 
@@ -177,5 +177,5 @@ createAddQuoteForm();
 populateCategories();
 filterQuotes();
 
-setInterval(syncWithServer, 10 * 60 * 1000);
-syncWithServer();
+setInterval(syncQuotes, 10 * 60 * 1000);
+syncQuotes();
