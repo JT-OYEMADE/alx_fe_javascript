@@ -14,7 +14,7 @@ function saveQuotes() {
 }
 
 // Function to populate category filter dropdown
-function populateCategoryFilter() {
+function populateCategories() {
   const categoryFilter = document.getElementById('categoryFilter');
   const categories = [...new Set(quotes.map(quote => quote.category))];
   categoryFilter.innerHTML = '<option value="all">All Categories</option>';
@@ -68,7 +68,7 @@ function addQuote() {
   if (newQuoteText && newQuoteCategory) {
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
       saveQuotes(); // Save the updated quotes to local storage
-      populateCategoryFilter(); // Update the categories in the dropdown
+      populateCategories(); // Update the categories in the dropdown
       document.getElementById('newQuoteText').value = '';
       document.getElementById('newQuoteCategory').value = '';
       alert('New quote added successfully!');
@@ -104,7 +104,7 @@ function importFromJsonFile(event) {
       const importedQuotes = JSON.parse(event.target.result);
       quotes.push(...importedQuotes);
       saveQuotes(); // Save the updated quotes to local storage
-      populateCategoryFilter(); // Update the categories in the dropdown
+      populateCategories(); // Update the categories in the dropdown
       alert('Quotes imported successfully!');
   };
   fileReader.readAsText(event.target.files[0]);
@@ -117,5 +117,5 @@ document.getElementById('importFile').addEventListener('change', importFromJsonF
 
 // Initial setup
 createAddQuoteForm();
-populateCategoryFilter();
+populateCategories();
 filterQuotes(); // Initialize the display based on the last selected category
