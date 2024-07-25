@@ -84,20 +84,41 @@
         .custom-file-upload:hover {
             background-color: #0056b3;
         }
+
+        #categoryFilter {
+            padding: 10px;
+            font-size: 1em;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        #conflictNotification {
+            display: none;
+            color: red;
+            margin-top: 20px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-  <h1>Dynamic Quote Generator</h1>
-  <select id="categoryFilter" onchange="filterQuotes()">
-      <option value="all">All Categories</option>
-      <!-- Dynamically populated categories -->
-  </select>
-  <div id="quoteDisplay"></div>
-  <button id="newQuote">Show New Quote</button>
-  <div id="addQuoteFormContainer"></div>
-  <input type="file" id="importFile" accept=".json" />
-  <button id="exportQuotes">Export Quotes</button>
-  <div id="conflictNotification" style="display: none; color: red;">Data conflict detected. Server data has been used to resolve the conflict.</div>
-  <script src="script.js"></script>
+    <h1>Dynamic Quote Generator</h1>
+    <select id="categoryFilter" onchange="filterQuotes()">
+        <option value="all">All Categories</option>
+        <!-- Dynamically populated categories -->
+    </select>
+    <div id="quoteDisplay"></div>
+    <button id="newQuote">Show New Quote</button>
+    <div id="addQuoteFormContainer">
+        <!-- <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
+        <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
+        <button id="addQuoteButton">Add Quote</button> -->
+    </div>
+    <label for="importFile" class="custom-file-upload">Import Quotes</label>
+    <input type="file" id="importFile" accept=".json" />
+    <button id="exportQuotes">Export Quotes</button>
+    <div id="conflictNotification">Data conflict detected. Server data has been used to resolve the conflict.</div>
+    <script src="script.js"></script>
 </body>
 </html>
