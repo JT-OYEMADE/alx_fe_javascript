@@ -6,7 +6,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
 ];
 
 // Load last selected category from local storage or default to "all"
-let lastSelectedCategory = localStorage.getItem('lastSelectedCategory') || 'all';
+let selectedCategory = localStorage.getItem('selectedCategory') || 'all';
 
 // Function to save quotes to local storage
 function saveQuotes() {
@@ -24,13 +24,13 @@ function populateCategories() {
       option.textContent = category;
       categoryFilter.appendChild(option);
   });
-  categoryFilter.value = lastSelectedCategory; // Set last selected category
+  categoryFilter.value = selectedCategory; // Set last selected category
 }
 
 // Function to display a random quote
 function showRandomQuote() {
   const quoteDisplay = document.getElementById('quoteDisplay');
-  const filteredQuotes = quotes.filter(quote => lastSelectedCategory === 'all' || quote.category === lastSelectedCategory);
+  const filteredQuotes = quotes.filter(quote => selectedCategory === 'all' || quote.category === selectedCategory);
   const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
   const randomQuote = filteredQuotes[randomIndex];
   quoteDisplay.innerHTML = `<p>"${randomQuote.text}"</p><p>- ${randomQuote.category}</p>`;
@@ -79,8 +79,8 @@ function addQuote() {
 
 // Function to filter quotes based on selected category
 function filterQuotes() {
-  lastSelectedCategory = document.getElementById('categoryFilter').value;
-  localStorage.setItem('lastSelectedCategory', lastSelectedCategory); // Save the last selected category to local storage
+  selectedCategory = document.getElementById('categoryFilter').value;
+  localStorage.setItem('selectedCategory', selectedCategory); // Save the selected category to local storage
   showRandomQuote(); // Update the displayed quote based on the selected category
 }
 
@@ -118,4 +118,4 @@ document.getElementById('importFile').addEventListener('change', importFromJsonF
 // Initial setup
 createAddQuoteForm();
 populateCategories();
-filterQuotes(); // Initialize the display based on the last selected category
+filterQuotes(); // Initialize the display based on the selected category
