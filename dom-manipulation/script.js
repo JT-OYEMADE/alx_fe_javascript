@@ -11,6 +11,7 @@ let selectedCategory = localStorage.getItem('selectedCategory') || 'all';
 function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
     syncWithServer();
+    postQuotesToServer(quotes);
 }
 
 function populateCategories() {
@@ -127,6 +128,22 @@ async function fetchQuotesFromServer() {
     } catch (error) {
         console.error('Error fetching quotes from server:', error);
         return [];
+    }
+}
+
+async function postQuotesToServer(quotes) {
+    try {
+        const response = await fetch(serverUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(quotes)
+        });
+        const data = await response.json();
+        console.log('Quotes posted to server:', data);
+    } catch (error) {
+        console.error('Error posting quotes to server:', error);
     }
 }
 
