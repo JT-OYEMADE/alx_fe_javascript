@@ -10,7 +10,7 @@ let selectedCategory = localStorage.getItem('selectedCategory') || 'all';
 
 function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
-    syncWithServer();
+    syncQuotes();
 }
 
 function populateCategories() {
@@ -151,6 +151,7 @@ async function syncQuotes() {
         const serverQuotes = await fetchQuotesFromServer();
         resolveConflicts(serverQuotes);
         await postQuotesToServer(quotes);
+        showNotification("Quotes synced with server!");
     } catch (error) {
         console.error('Error syncing quotes:', error);
     }
@@ -167,6 +168,22 @@ function resolveConflicts(serverQuotes) {
             document.getElementById('conflictNotification').style.display = 'none';
         }, 5000);
     }
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '10px';
+    notification.style.right = '10px';
+    notification.style.backgroundColor = '#4CAF50';
+    notification.style.color = 'white';
+    notification.style.padding = '10px';
+    notification.style.borderRadius = '5px';
+    document.body.appendChild(notification);
+    setTimeout(() => {
+        document.body.removeChild(notification);
+    }, 3000);
 }
 
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
