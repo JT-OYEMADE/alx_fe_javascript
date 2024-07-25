@@ -116,17 +116,24 @@ function importFromJsonFile(event) {
     fileReader.readAsText(event.target.files[0]);
 }
 
-async function syncWithServer() {
+async function fetchQuotesFromServer() {
     try {
         const response = await fetch(serverUrl);
         const serverQuotes = await response.json();
-
-        const adaptedServerQuotes = serverQuotes.map(quote => ({
+        return serverQuotes.map(quote => ({
             text: quote.title || quote.text,
             category: quote.category || 'Imported'
         }));
+    } catch (error) {
+        console.error('Error fetching quotes from server:', error);
+        return [];
+    }
+}
 
-        resolveConflicts(adaptedServerQuotes);
+async function syncWithServer() {
+    try {
+        const serverQuotes = await fetchQuotesFromServer();
+        resolveConflicts(serverQuotes);
     } catch (error) {
         console.error('Error syncing with server:', error);
     }
